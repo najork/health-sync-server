@@ -1,0 +1,22 @@
+types:
+  definitions:
+    default-package: api
+    objects:
+      Provider:
+        alias: string
+      ProviderRequest:
+        alias: any
+
+services:
+  ApolloService:
+    name: Apollo Service
+    package: api
+    base-path: /api
+    endpoints:
+      collect:
+        docs: |
+          Triggers metrics collection from the given provider.
+        http: POST /collect/{provider}
+        args:
+          provider: Provider
+          request: ProviderRequest

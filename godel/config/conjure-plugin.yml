@@ -1,0 +1,6 @@
+version: 1
+projects:
+  conjure:
+    output-dir: ./conjure
+    ir-locator: ./conjure/defs
+    server: true

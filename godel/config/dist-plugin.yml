@@ -1,0 +1,38 @@
+products:
+  apollo-server:
+    build:
+      output-dir: build
+      version-var: github.com/najork/apollo-server/cmd.Version
+      main-pkg: .
+      environment:
+        CGO_ENABLED: "0"
+      os-archs:
+        - os: darwin
+          arch: amd64
+        - os: linux
+          arch: amd64
+    dist:
+      output-dir: build
+      disters:
+        os-arch-bin:
+          type: os-arch-bin
+          config:
+            os-archs:
+            - os: linux
+              arch: amd64
+            - os: darwin
+              arch: amd64
+    publish: {}
+    docker:
+      docker-builders:
+        apollo-server:
+          type: default
+          context-dir: ./docker
+          dockerfile-path: Dockerfile
+          input-products-dir: inputs
+          tag-templates:
+            release: "apollo-server:{{Version}}"
+            snapshot: "apollo-server:snapshot"
+product-defaults:
+  publish:
+    group-id: com.apollo.apollo-server

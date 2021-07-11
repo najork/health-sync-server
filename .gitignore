@@ -1,0 +1,16 @@
+# GoLand
+*.iml
+*.ipr
+*.iws
+.idea/
+
+# Build files
+/docker/inputs/
+/out/
+
+# Test
+/var/
+*.log
+
+# MacOS
+.DS_Store
