@@ -1,7 +1,7 @@
 package cmd
 
 import (
-	"github.com/najork/apollo-server/server"
+	"github.com/najork/health-sync-server/server"
 	"github.com/spf13/cobra"
 )
 
