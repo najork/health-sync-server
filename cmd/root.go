@@ -10,7 +10,7 @@ var (
 	Version = "unspecified"
 
 	rootCmd = &cobra.Command{
-		Use: "apollo-server",
+		Use: "health-sync-server",
 	}
 )
 

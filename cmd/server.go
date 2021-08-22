@@ -7,7 +7,7 @@ import (
 
 var serverCmd = &cobra.Command{
 	Use:   "server",
-	Short: "Start the apollo server",
+	Short: "Start the health sync server",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		return server.New().Start()
 	},

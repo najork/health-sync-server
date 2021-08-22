@@ -25,7 +25,7 @@ func initFn(ctx context.Context, info witchcraft.InitInfo) (cleanup func(), rErr
 	svc := service.New()
 	go func() {
 		_ = wapp.RunWithFatalLogging(ctx, func(ctx context.Context) error {
-			return api.RegisterRoutesApolloService(info.Router, svc)
+			return api.RegisterRoutesHealthSyncService(info.Router, svc)
 		})
 	}()
 

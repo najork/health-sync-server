@@ -25,10 +25,10 @@ func TestServer(t *testing.T) {
 	server := server.New().
 		WithInstallConfig(config.Install{
 			Install: wconfig.Install{
-				ProductName: "apollo-server",
+				ProductName: "health-sync-server",
 				Server: wconfig.Server{
 					Address:        "localhost",
-					ContextPath:    "/apollo",
+					ContextPath:    "/health-sync",
 					Port:           port,
 					ManagementPort: port,
 				},
@@ -58,6 +58,6 @@ func TestServer(t *testing.T) {
 	require.NoError(t, err)
 
 	assert.True(t, <-httpserver.Ready(func() (*http.Response, error) {
-		return client.Get(fmt.Sprintf("https://localhost:%d/%s/%s", port, "apollo", status.LivenessEndpoint))
+		return client.Get(fmt.Sprintf("https://localhost:%d/%s/%s", port, "health-sync", status.LivenessEndpoint))
 	}))
 }

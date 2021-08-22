@@ -8,8 +8,8 @@ types:
         alias: any
 
 services:
-  ApolloService:
-    name: Apollo Service
+  HealthSyncService:
+    name: Health Sync Service
     package: api
     base-path: /api
     endpoints:

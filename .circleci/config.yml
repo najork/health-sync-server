@@ -1,5 +1,5 @@
 owner-repo: &owner-repo
-  owner-repo: najork/apollo-server
+  owner-repo: najork/health-sync-server
 
 excutor: &executor
   executor:

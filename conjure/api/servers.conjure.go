@@ -16,29 +16,29 @@ import (
 	"github.com/palantir/witchcraft-go-server/v2/wrouter"
 )
 
-type ApolloService interface {
+type HealthSyncService interface {
 	// Triggers metrics collection from the given provider.
 	Collect(ctx context.Context, providerArg Provider, requestArg ProviderRequest) error
 }
 
-// RegisterRoutesApolloService registers handlers for the ApolloService endpoints with a witchcraft wrouter.
+// RegisterRoutesHealthSyncService registers handlers for the HealthSyncService endpoints with a witchcraft wrouter.
 // This should typically be called in a witchcraft server's InitFunc.
 // impl provides an implementation of each endpoint, which can assume the request parameters have been parsed
 // in accordance with the Conjure specification.
-func RegisterRoutesApolloService(router wrouter.Router, impl ApolloService) error {
-	handler := apolloServiceHandler{impl: impl}
-	resource := wresource.New("apolloservice", router)
+func RegisterRoutesHealthSyncService(router wrouter.Router, impl HealthSyncService) error {
+	handler := healthSyncServiceHandler{impl: impl}
+	resource := wresource.New("healthsyncservice", router)
 	if err := resource.Post("Collect", "/api/collect/{provider}", httpserver.NewJSONHandler(handler.HandleCollect, httpserver.StatusCodeMapper, httpserver.ErrHandler)); err != nil {
 		return werror.Wrap(err, "failed to add route", werror.SafeParam("routeName", "Collect"))
 	}
 	return nil
 }
 
-type apolloServiceHandler struct {
-	impl ApolloService
+type healthSyncServiceHandler struct {
+	impl HealthSyncService
 }
 
-func (a *apolloServiceHandler) HandleCollect(rw http.ResponseWriter, req *http.Request) error {
+func (h *healthSyncServiceHandler) HandleCollect(rw http.ResponseWriter, req *http.Request) error {
 	pathParams := wrouter.PathParams(req)
 	if pathParams == nil {
 		return werror.Wrap(errors.NewInternal(), "path params not found on request: ensure this endpoint is registered with wrouter")
@@ -56,5 +56,5 @@ func (a *apolloServiceHandler) HandleCollect(rw http.ResponseWriter, req *http.R
 	if err := codecs.JSON.Decode(req.Body, &request); err != nil {
 		return errors.WrapWithInvalidArgument(err)
 	}
-	return a.impl.Collect(req.Context(), provider, request)
+	return h.impl.Collect(req.Context(), provider, request)
 }

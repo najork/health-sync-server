@@ -1,5 +1,5 @@
 products:
-  apollo-server:
+  health-sync-server:
     build:
       output-dir: build
       version-var: github.com/najork/health-sync-server/cmd.Version
@@ -25,14 +25,14 @@ products:
     publish: {}
     docker:
       docker-builders:
-        apollo-server:
+        health-sync-server:
           type: default
           context-dir: ./docker
           dockerfile-path: Dockerfile
           input-products-dir: inputs
           tag-templates:
-            release: "apollo-server:{{Version}}"
-            snapshot: "apollo-server:snapshot"
+            release: "health-sync-server:{{Version}}"
+            snapshot: "health-sync-server:snapshot"
 product-defaults:
   publish:
-    group-id: com.apollo.apollo-server
+    group-id: org.najork.health-sync-server
