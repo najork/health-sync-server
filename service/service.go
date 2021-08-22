@@ -4,7 +4,7 @@ import (
 	"context"
 	"sync"
 
-	"github.com/najork/apollo-server/conjure/api"
+	"github.com/najork/health-sync-server/conjure/api"
 	"github.com/palantir/witchcraft-go-health/conjure/witchcraft/api/health"
 )
 

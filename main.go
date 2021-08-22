@@ -3,7 +3,7 @@ package main
 import (
 	"os"
 
-	"github.com/najork/apollo-server/cmd"
+	"github.com/najork/health-sync-server/cmd"
 	"github.com/palantir/pkg/signals"
 )
 

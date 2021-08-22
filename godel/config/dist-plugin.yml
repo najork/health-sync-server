@@ -2,7 +2,7 @@ products:
   apollo-server:
     build:
       output-dir: build
-      version-var: github.com/najork/apollo-server/cmd.Version
+      version-var: github.com/najork/health-sync-server/cmd.Version
       main-pkg: .
       environment:
         CGO_ENABLED: "0"

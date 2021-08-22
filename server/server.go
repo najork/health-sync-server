@@ -3,9 +3,9 @@ package server
 import (
 	"context"
 
-	"github.com/najork/apollo-server/config"
-	"github.com/najork/apollo-server/conjure/api"
-	"github.com/najork/apollo-server/service"
+	"github.com/najork/health-sync-server/config"
+	"github.com/najork/health-sync-server/conjure/api"
+	"github.com/najork/health-sync-server/service"
 	"github.com/palantir/witchcraft-go-logging/wlog/svclog/svc1log"
 	"github.com/palantir/witchcraft-go-logging/wlog/wapp"
 	"github.com/palantir/witchcraft-go-server/v2/witchcraft"

@@ -1,4 +1,4 @@
-module github.com/najork/apollo-server
+module github.com/najork/health-sync-server
 
 go 1.16
 
