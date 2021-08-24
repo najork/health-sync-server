@@ -1,0 +1,8 @@
+server:
+  port: 8443
+  management-port: 8444
+  context-path: "/health-sync"
+credentials:
+  email: ""     # Garmin Connect username
+  password: ""  # Garmin Connect password
+use-console-log: true

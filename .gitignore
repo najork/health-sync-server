@@ -5,6 +5,7 @@
 .idea/
 
 # Build files
+/build/
 /docker/inputs/
 /out/
 

@@ -5,20 +5,18 @@ package api
 import (
 	"context"
 	"net/http"
-	"strconv"
 
 	"github.com/palantir/conjure-go-runtime/v2/conjure-go-contract/codecs"
 	"github.com/palantir/conjure-go-runtime/v2/conjure-go-contract/errors"
 	"github.com/palantir/conjure-go-runtime/v2/conjure-go-server/httpserver"
-	"github.com/palantir/pkg/safejson"
 	werror "github.com/palantir/witchcraft-go-error"
 	"github.com/palantir/witchcraft-go-server/v2/witchcraft/wresource"
 	"github.com/palantir/witchcraft-go-server/v2/wrouter"
 )
 
 type HealthSyncService interface {
-	// Triggers metrics collection from the given provider.
-	Collect(ctx context.Context, providerArg Provider, requestArg ProviderRequest) error
+	// Collect metrics from Garmin Connect for the given activity.
+	Collect(ctx context.Context, requestArg ActivityRequest) error
 }
 
 // RegisterRoutesHealthSyncService registers handlers for the HealthSyncService endpoints with a witchcraft wrouter.
@@ -28,7 +26,7 @@ type HealthSyncService interface {
 func RegisterRoutesHealthSyncService(router wrouter.Router, impl HealthSyncService) error {
 	handler := healthSyncServiceHandler{impl: impl}
 	resource := wresource.New("healthsyncservice", router)
-	if err := resource.Post("Collect", "/api/collect/{provider}", httpserver.NewJSONHandler(handler.HandleCollect, httpserver.StatusCodeMapper, httpserver.ErrHandler)); err != nil {
+	if err := resource.Post("Collect", "/api/collect", httpserver.NewJSONHandler(handler.HandleCollect, httpserver.StatusCodeMapper, httpserver.ErrHandler)); err != nil {
 		return werror.Wrap(err, "failed to add route", werror.SafeParam("routeName", "Collect"))
 	}
 	return nil
@@ -39,22 +37,9 @@ type healthSyncServiceHandler struct {
 }
 
 func (h *healthSyncServiceHandler) HandleCollect(rw http.ResponseWriter, req *http.Request) error {
-	pathParams := wrouter.PathParams(req)
-	if pathParams == nil {
-		return werror.Wrap(errors.NewInternal(), "path params not found on request: ensure this endpoint is registered with wrouter")
-	}
-	providerStr, ok := pathParams["provider"]
-	if !ok {
-		return werror.Wrap(errors.NewInvalidArgument(), "path param not present", werror.SafeParam("pathParamName", "provider"))
-	}
-	var provider Provider
-	providerQuote := strconv.Quote(providerStr)
-	if err := safejson.Unmarshal([]byte(providerQuote), &provider); err != nil {
-		return werror.Wrap(err, "failed to unmarshal argument", werror.SafeParam("argName", "provider"), werror.SafeParam("argType", "Provider"))
-	}
-	var request ProviderRequest
+	var request ActivityRequest
 	if err := codecs.JSON.Decode(req.Body, &request); err != nil {
 		return errors.WrapWithInvalidArgument(err)
 	}
-	return h.impl.Collect(req.Context(), provider, request)
+	return h.impl.Collect(req.Context(), request)
 }
