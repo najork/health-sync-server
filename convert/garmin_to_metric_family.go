@@ -65,7 +65,7 @@ func keyToMetricType(key string) dto.MetricType {
 
 func metricToTimestampMs(metric connect.Metric) int64 {
 	if metric == nil {
-		return time.Unix(0, 0).UnixMilli()
+		return time.Unix(0, 0).Unix()
 	}
 	return int64(*metric)
 }
