@@ -2,10 +2,10 @@ types:
   definitions:
     default-package: api
     objects:
-      Provider:
-        alias: string
-      ProviderRequest:
-        alias: any
+      ActivityRequest:
+        fields:
+          id: integer
+          maxPoints: integer
 
 services:
   HealthSyncService:
@@ -15,8 +15,7 @@ services:
     endpoints:
       collect:
         docs: |
-          Triggers metrics collection from the given provider.
-        http: POST /collect/{provider}
+          Collect metrics from Garmin Connect for the given activity.
+        http: POST /collect
         args:
-          provider: Provider
-          request: ProviderRequest
+          request: ActivityRequest

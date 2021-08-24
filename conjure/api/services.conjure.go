@@ -4,15 +4,13 @@ package api
 
 import (
 	"context"
-	"fmt"
-	"net/url"
 
 	"github.com/palantir/conjure-go-runtime/v2/conjure-go-client/httpclient"
 )
 
 type HealthSyncServiceClient interface {
-	// Triggers metrics collection from the given provider.
-	Collect(ctx context.Context, providerArg Provider, requestArg ProviderRequest) error
+	// Collect metrics from Garmin Connect for the given activity.
+	Collect(ctx context.Context, requestArg ActivityRequest) error
 }
 
 type healthSyncServiceClient struct {
@@ -23,11 +21,11 @@ func NewHealthSyncServiceClient(client httpclient.Client) HealthSyncServiceClien
 	return &healthSyncServiceClient{client: client}
 }
 
-func (c *healthSyncServiceClient) Collect(ctx context.Context, providerArg Provider, requestArg ProviderRequest) error {
+func (c *healthSyncServiceClient) Collect(ctx context.Context, requestArg ActivityRequest) error {
 	var requestParams []httpclient.RequestParam
 	requestParams = append(requestParams, httpclient.WithRPCMethodName("Collect"))
 	requestParams = append(requestParams, httpclient.WithRequestMethod("POST"))
-	requestParams = append(requestParams, httpclient.WithPathf("/api/collect/%s", url.PathEscape(fmt.Sprint(providerArg))))
+	requestParams = append(requestParams, httpclient.WithPathf("/api/collect"))
 	requestParams = append(requestParams, httpclient.WithJSONRequest(requestArg))
 	resp, err := c.client.Do(ctx, requestParams...)
 	if err != nil {

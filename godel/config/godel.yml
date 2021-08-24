@@ -19,4 +19,5 @@ exclude:
     - "\\..+"
     - "vendor"
   paths:
+    - "conjure"
     - "godel"
