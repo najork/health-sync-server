@@ -20,3 +20,5 @@ Import the metrics into Prometheus. See the [documentation](https://github.com/p
 ```
 promtool tsdb create-blocks-from openmetrics metrics.out
 ```
+
+After creating the blocks, move them to the data directory of Prometheus and restart the process.
