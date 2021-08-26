@@ -16,6 +16,10 @@ import (
 // compile-time assertion that Service implements api.HealthSyncService
 var _ api.HealthSyncService = (*Service)(nil)
 
+const (
+	filename = "metrics.out"
+)
+
 type Service struct {
 	client *connect.Client
 
@@ -63,5 +67,5 @@ func (s *Service) Collect(ctx context.Context, requestArg api.ActivityRequest) e
 	}
 	svc1log.FromContext(ctx).Debug("Retrieved activity details.", svc1log.SafeParam("activityDetails", activityDetails))
 
-	return export.ToTextFile(ctx, "proto.out", activity, activityDetails)
+	return export.ToTextFile(ctx, filename, activity, activityDetails)
 }
