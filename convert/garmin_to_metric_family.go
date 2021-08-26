@@ -30,7 +30,7 @@ func GarminActivityToMetricFamilies(activity *connect.Activity, details *connect
 	}
 
 	for _, activityDetailMetric := range details.ActivityDetailMetrics {
-		timestamp := metricToTimestampMs(activityDetailMetric.Metrics[timestampIndex])
+		timestamp := metricToTimestampSeconds(activityDetailMetric.Metrics[timestampIndex])
 		for i, metric := range activityDetailMetric.Metrics {
 			if i == timestampIndex {
 				continue
@@ -63,11 +63,12 @@ func keyToMetricType(key string) dto.MetricType {
 	}
 }
 
-func metricToTimestampMs(metric connect.Metric) int64 {
+func metricToTimestampSeconds(metric connect.Metric) int64 {
 	if metric == nil {
 		return time.Unix(0, 0).Unix()
 	}
-	return int64(*metric)
+	// Garmin timestamps are in milliseconds but Prometheus expects seconds.
+	return int64(*metric) / 1000
 }
 
 func garminMetricToGauge(value *float64, timestampMs *int64) *dto.Metric {
